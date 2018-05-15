@@ -5,13 +5,6 @@
 #include <stdio.h>
 
 /******************************************************************/
-void _free_vector(char** vector_char,size_t items){
-	for (int i = 0; i < items; ++i)
-	{
-		free(vector_char[i]);
-	}
-	free(vector_char);
-}
 char** split(const char* str, char sep){
 	
 	if (!sep)return NULL;
@@ -119,4 +112,15 @@ void free_strv(char* strv[]){
 		free(strv[i]);
 	}
 	free(strv);
+}
+int main(){
+	char* cad1 = "3hola3mundo3";
+	char ** vec = split(cad1,'3');
+	int i = 0;
+	while (vec[i]){
+		printf("%s\n",vec[i]);
+		i++;
+	}
+	char* cad2 =join(vec,'3');
+	printf("%s\n", cad2);
 }
