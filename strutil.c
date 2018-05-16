@@ -5,10 +5,17 @@
 #include <stdio.h>
 
 /******************************************************************/
+void _free_vector_incompleto(char** vector_char,size_t items){
+	for (int i = 0; i < items; ++i)
+	{
+		free(vector_char[i]);
+	}
+	free(vector_char);
+}
+
 char** split(const char* str, char sep){
 	
 	if (!sep)return NULL;
-
 	size_t cant_sep = 2;//Por el Null al final
 	size_t i,items,cant_char;
 	
@@ -35,7 +42,7 @@ char** split(const char* str, char sep){
 			char* cad = malloc(cant_char*sizeof(char));
 			
 			if (!cad){
-				free_strv(vec_dina);
+				
 				return NULL;
 			}
 			vec_dina[items] = cad;
@@ -46,7 +53,7 @@ char** split(const char* str, char sep){
 	}
 	char* cad = malloc((cant_char+1)*sizeof(char)); //El +1  SE DEBE  por el '/0' AL final.
 	if (!cad){
-		free_strv(vec_dina);
+		_free_vector_incompleto(vec_dina,items);
 		return NULL;
 	}
 	vec_dina[items] = cad;
@@ -56,7 +63,6 @@ char** split(const char* str, char sep){
 		if(str[i] != sep){
 			vec_dina[items][cant_char]  = str[i];
 			++cant_char;
-			
 		}
 		else{
 			++items;
@@ -83,7 +89,7 @@ char* join(char** strv, char sep){
 			++cont;
 		}
 	}
-	char* cad = malloc((cont)*sizeof(char));
+	char* cad = malloc((cont+1)*sizeof(char));
 	if (!cad) return NULL;
 	if(!strv) return cad;
 
@@ -96,6 +102,8 @@ char* join(char** strv, char sep){
 			++status_cad2;
 		}
 		else{
+			cad[status_cad2] = '\0';
+			
 			if (strv[status_vec+1]){
 				cad[status_cad2] = sep;// Si  no estoy entre al ffinal
 				++status_cad2;
@@ -107,20 +115,11 @@ char* join(char** strv, char sep){
 	return cad;
 }
 void free_strv(char* strv[]){
-	int i = 0;
-	while(strv){
+	size_t i = 0;
+	while(strv[i] != NULL){
 		free(strv[i]);
+		++i;
 	}
 	free(strv);
 }
-int main(){
-	char* cad1 = "3hola3mundo3";
-	char ** vec = split(cad1,'3');
-	int i = 0;
-	while (vec[i]){
-		printf("%s\n",vec[i]);
-		i++;
-	}
-	char* cad2 =join(vec,'3');
-	printf("%s\n", cad2);
-}
+
