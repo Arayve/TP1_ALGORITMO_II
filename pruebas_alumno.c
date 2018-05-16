@@ -4,7 +4,7 @@
 
 
 int main(){
-    char* cad1 = "hola mundo que tal biena";
+    char* cad1 = "3hola mundo 33 que tal biena33";
     char ** vec = split(cad1,'3');
     int i = 0;
     while (vec[i]){

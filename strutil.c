@@ -31,7 +31,6 @@ char** split(const char* str, char sep){
 	if (!vec_dina)return NULL;
 	vec_dina[cant_sep-1] = NULL; //Contamos desde cero
 	
- /* *****************************************************************/	
 	i = 0;
 	while(str[i]){
 		if(str[i] != sep){
@@ -39,7 +38,7 @@ char** split(const char* str, char sep){
 		}
 		else{
 			
-			char* cad = malloc(cant_char*sizeof(char));
+			char* cad = malloc((cant_char+1)*sizeof(char));
 			
 			if (!cad){
 				free_strv(vec_dina);
@@ -63,12 +62,13 @@ char** split(const char* str, char sep){
 		if(str[i] != sep){
 			vec_dina[items][cant_char]  = str[i];
 			++cant_char;
-			
 		}
 		else{
+			vec_dina[items][cant_char]  = '\0';
 			++items;
 			cant_char = 0;
 		}
+
 		++i;
 	}
 	return vec_dina;
@@ -80,7 +80,7 @@ char* join(char** strv, char sep){
 
 	if (strv){
 		while(strv[status_vec]){
-			if(strv[status_vec][status_cad1]){
+			if(strv[status_vec][status_cad1] != '\0'){
 				++status_cad1;
 			}
 			else{
@@ -90,7 +90,7 @@ char* join(char** strv, char sep){
 			++cont;
 		}
 	}
-	char* cad = malloc((cont)*sizeof(char));
+	char* cad = malloc((cont+1)*sizeof(char));
 	if (!cad) return NULL;
 	if(!strv) return cad;
 
@@ -111,6 +111,8 @@ char* join(char** strv, char sep){
 			++status_vec;
 		}
 	}
+	cad[status_cad2] = '\0';
+
 	return cad;
 }
 void free_strv(char* strv[]){
