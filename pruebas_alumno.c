@@ -18,4 +18,3 @@ int main(){
     free(cad2);
     
 }
-
