@@ -97,7 +97,7 @@ char* join(char** strv, char sep){
 	status_vec = status_cad1 = 0;
 	
 	while(strv[status_vec]){
-		if(strv[status_vec][status_cad1]){
+		if(strv[status_vec][status_cad1] != '\0'){
 			cad[status_cad2] = strv[status_vec][status_cad1];
 			++status_cad1;
 			++status_cad2;
